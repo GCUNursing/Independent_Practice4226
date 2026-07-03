@@ -1,0 +1,49 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return signedIn() && request.auth.token.role == 'admin';
+    }
+    function isStudent() {
+      return signedIn() && request.auth.token.role == 'student';
+    }
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    match /profiles/{uid} {
+      allow get: if isAdmin() || isOwner(uid);
+      allow list: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    // 학생은 Cloud Function(listVisibleSlots)으로 공개된 시간대만 받습니다.
+    // 노출 전 시간대는 Firestore 직접 조회로 읽을 수 없게 관리자만 허용합니다.
+    match /slots/{slotId} {
+      allow get, list: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /applications/{appId} {
+      allow get, list: if isAdmin() || (isStudent() && resource.data.uid == request.auth.uid);
+      allow create, update, delete: if false;
+    }
+
+    match /auditLogs/{logId} {
+      allow get, list: if isAdmin();
+      allow create, update, delete: if false;
+    }
+
+    match /settings/{docId} {
+      allow get, list: if signedIn();
+      allow create, update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
