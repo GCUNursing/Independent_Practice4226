@@ -50,6 +50,11 @@ function cleanSid(value) {
   if (!/^\d{4,}$/.test(sid)) throw new HttpsError('invalid-argument', '학번은 숫자 4자리 이상이어야 합니다.');
   return sid;
 }
+function cleanEmail(value) {
+  const email = cleanString(String(value || '').toLowerCase(), '이메일', 120);
+  if (!/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(email)) throw new HttpsError('invalid-argument', '이메일 형식이 올바르지 않습니다.');
+  return email;
+}
 function cleanDate(value) {
   const s = cleanString(String(value || ''), '날짜', 10);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) throw new HttpsError('invalid-argument', '날짜는 YYYY-MM-DD 형식이어야 합니다.');
@@ -485,12 +490,16 @@ exports.updateSlot = onCall(async (request) => {
   const data = request.data || {};
   const slotId = cleanString(String(data.slotId || ''), 'slotId', 120);
   const ref = db.collection('slots').doc(slotId);
+  let copiedFields = {};
   let out = null;
+
   await db.runTransaction(async (tx) => {
     const snap = await tx.get(ref);
     if (!snap.exists) throw new HttpsError('not-found', '시간대를 찾을 수 없습니다.');
     const slot = snap.data();
     const patch = { updatedAt: timestamp(), updatedAtMillis: nowMillis(), updatedByUid: auth.uid };
+
+    if (data.date !== undefined) patch.date = cleanDate(data.date);
     if (data.capacity !== undefined) {
       const cap = cleanCapacity(data.capacity);
       const occupied = Number(slot.confirmedCount || 0) + Number(slot.pendingCount || 0);
@@ -506,9 +515,34 @@ exports.updateSlot = onCall(async (request) => {
       patch.start = start;
       patch.end = end;
     }
+
     tx.update(ref, patch);
-    out = { slotId, capacity: patch.capacity !== undefined ? patch.capacity : Number(slot.capacity || 0) };
+    ['date','start','end','topic','room'].forEach(k => {
+      if (patch[k] !== undefined) copiedFields[k] = patch[k];
+    });
+    out = {
+      slotId,
+      capacity: patch.capacity !== undefined ? patch.capacity : Number(slot.capacity || 0),
+      copiedFields
+    };
   });
+
+  // applications에는 시간대 정보 사본이 들어 있으므로 날짜/시간/주제/실습실 변경 시 같이 동기화합니다.
+  if (Object.keys(copiedFields).length) {
+    while (true) {
+      const q = await db.collection('applications').where('slotId', '==', slotId).limit(300).get();
+      if (q.empty) break;
+      const batch = db.batch();
+      q.forEach(d => batch.update(d.ref, {
+        ...copiedFields,
+        updatedAt: timestamp(),
+        updatedAtMillis: nowMillis()
+      }));
+      await batch.commit();
+      if (q.size < 300) break;
+    }
+  }
+
   await audit('updateSlot', auth, { slotId, fields: Object.keys(data).filter(k => k !== 'slotId') });
   return out;
 });
@@ -585,6 +619,45 @@ exports.createStudentAccount = onCall(async (request) => {
   });
   await audit('createStudentAccount', auth, { uid: userRecord.uid, sid });
   return { uid: userRecord.uid, sid, name, email, tempPassword: generated ? password : '', passwordGenerated: generated };
+});
+
+exports.createAdminAccount = onCall(async (request) => {
+  const auth = requireAdmin(request);
+  const email = cleanEmail(request.data && request.data.email);
+  const name = cleanString(String(request.data && request.data.name || ''), '이름', 50);
+  let password = cleanPassword(request.data && request.data.password, true);
+  let generated = false;
+  if (!password) {
+    password = randomPassword();
+    generated = true;
+  }
+
+  let userRecord;
+  try {
+    userRecord = await admin.auth().getUserByEmail(email);
+    throw new HttpsError('already-exists', '이미 등록된 관리자 계정입니다.');
+  } catch (error) {
+    if (error instanceof HttpsError) throw error;
+    if (error.code !== 'auth/user-not-found') throw new HttpsError('internal', error.message || '계정 확인 중 오류가 발생했습니다.');
+  }
+
+  userRecord = await admin.auth().createUser({ email, password, displayName: name, disabled: false });
+  await admin.auth().setCustomUserClaims(userRecord.uid, { role: 'admin', name });
+  await db.collection('profiles').doc(userRecord.uid).set({
+    role: 'admin',
+    sid: '',
+    name,
+    email,
+    pwChanged: false,
+    disabled: false,
+    createdByUid: auth.uid,
+    createdAt: timestamp(),
+    createdAtMillis: nowMillis(),
+    updatedAt: timestamp(),
+    updatedAtMillis: nowMillis()
+  });
+  await audit('createAdminAccount', auth, { uid: userRecord.uid, email });
+  return { uid: userRecord.uid, name, email, tempPassword: generated ? password : '', passwordGenerated: generated };
 });
 
 exports.resetStudentPassword = onCall(async (request) => {
