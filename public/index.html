@@ -438,10 +438,141 @@
 .small-btn.danger{color:#e0807a;border-color:rgba(224,128,122,.45)}
 .small-btn.danger:hover{background:rgba(224,128,122,.12)}
 .status-pill.closed{background:rgba(217,128,136,.16);color:#e89aa0;border-color:rgba(217,128,136,.42)}
+
+  /* ============ 밝은 테마 (상단바만 어둡게) ============ */
+  :root{
+    --text:#2b1c22; --muted:#7c6b72; --faint:#a99aa1;
+    --line:rgba(0,0,0,.10); --glass:#ffffff;
+  }
+  body{ background:linear-gradient(180deg,#f7f1f3 0%,#efe6ea 100%) !important; color:var(--text); }
+  input,select,textarea{ background:#f4eef1 !important; color:var(--text) !important; border-color:var(--line) !important; }
+  .seat-progress,.bar{ background:rgba(0,0,0,.07) !important; }
+  .slot-summary .dot.r{ background:rgba(0,0,0,.16) !important; }
+  .btn-apply:disabled{ background:rgba(0,0,0,.07) !important; color:var(--faint) !important; }
+  .attend-actions button,.small-btn,.stat-table th{ background:#f3edf0 !important; }
+  .modal-x:hover{ background:rgba(0,0,0,.06) !important; }
+  .admin-nav button .ico{ background:rgba(160,0,64,.09) !important; }
+  .mobile-step,.admin-sidebar,.admin-page-head,.login-card,.slot,.ticket,.attend-slot,
+  .semester-summary,.week-chip,.date-chip,.pend-card,.acct-row,.mng-row,.stat-card,.card,.modal{
+    background:#ffffff !important;
+  }
+  .mobile-step,.admin-sidebar,.admin-page-head{ box-shadow:0 10px 30px rgba(120,20,60,.08) !important; }
+  .student-hero{ background:linear-gradient(145deg,rgba(160,0,64,.10),rgba(160,0,64,.02)) !important; border-color:rgba(160,0,64,.18) !important; }
+  .admin-nav button.active{ background:linear-gradient(145deg,var(--teal),var(--teal-deep)) !important; color:#fff !important; }
+  .modal{ color:var(--text) !important; box-shadow:0 24px 60px rgba(0,0,0,.28) !important; }
+  .modal-sec input{ background:#f3edf0 !important; color:var(--text) !important; }
+  .modal-overlay{ background:rgba(40,15,25,.45) !important; }
+  /* 상단바: 학교색(어둡게) + 밝은 글씨 */
+  .topbar{ background:linear-gradient(150deg,#2a1320,#1d0e17) !important; color:#f3e9ec !important;
+    padding:14px 16px !important; border-radius:18px !important; margin-bottom:16px !important;
+    box-shadow:0 10px 26px rgba(160,0,64,.18) !important; }
+  .topbar .brand h1,.topbar .brand h1 span{ color:#fff !important; }
+  .topbar .brand p{ color:rgba(255,255,255,.62) !important; }
+  .topbar .who,.topbar .me{ color:rgba(255,255,255,.85) !important; }
+  .topbar .me b{ color:#fff !important; }
+  .topbar .me .sid{ color:rgba(255,255,255,.6) !important; }
+  .topbar .role-tag{ background:rgba(255,255,255,.14) !important; border-color:rgba(255,255,255,.25) !important; color:#fff !important; }
+  .topbar .icon-btn{ color:#f3e9ec !important; border-color:rgba(255,255,255,.22) !important; background:rgba(255,255,255,.07) !important; }
+  .topbar .icon-btn:hover{ background:rgba(255,255,255,.16) !important; }
+  /* 학생 화면 가운데 정렬 + 편안한 폭 */
+  .wrap.student-wrap{ max-width:680px; margin-left:auto !important; margin-right:auto !important; }
+  /* ============ 인쇄(PDF) 영역 ============ */
+  #print-area{display:none}
+  @media print{
+    body *{visibility:hidden!important}
+    #print-area,#print-area *{visibility:visible!important}
+    #print-area{display:block!important;position:absolute;left:0;top:0;width:100%}
+  }
+  .print-doc{color:#111;font-family:'맑은 고딕','Malgun Gothic',sans-serif;padding:4mm}
+  .print-doc h1{font-size:18px;margin:0 0 2px}
+  .print-doc .psub{font-size:12px;color:#444;margin:0 0 14px}
+  .print-doc section{page-break-inside:avoid;margin-bottom:18px}
+  .print-doc h2{font-size:14px;margin:0 0 2px;color:#7d0032}
+  .print-doc .sinfo{font-size:11px;color:#555;margin:0 0 7px}
+  .print-doc table{width:100%;border-collapse:collapse}
+  .print-doc th,.print-doc td{border:1px solid #999;padding:5px 7px;font-size:11px;text-align:center}
+  .print-doc th{background:#efe3e8}
+  .print-doc td.l{text-align:left}
+
+/* ===== PATCH 2026-07: 모바일/버튼/학생 레이아웃 보정 ===== */
+html, body, #app { max-width:100%; overflow-x:hidden; }
+.wrap.student-wrap{ width:min(100% - 32px, 960px) !important; max-width:960px !important; }
+.wrap.admin-wrap{ width:min(100% - 32px, 1240px) !important; }
+.week-chip.active,
+.date-chip.active{
+  background:linear-gradient(145deg,var(--teal),var(--teal-deep)) !important;
+  color:#fff !important;
+  border-color:transparent !important;
+}
+.week-chip.active .range,
+.date-chip.active .dow,
+.date-chip.active .mon{ color:rgba(255,255,255,.86) !important; }
+.small-btn.primary{
+  color:#fff !important;
+  background:linear-gradient(145deg,var(--teal),var(--teal-deep)) !important;
+  border-color:transparent !important;
+}
+.small-btn.primary:hover{ filter:brightness(1.04); color:#fff !important; }
+.small-btn:disabled{ opacity:.55; cursor:not-allowed; }
+.mng-row button{ pointer-events:auto; position:relative; z-index:2; }
+.mng-actions .small-btn.edit{ border-color:rgba(160,0,64,.42); color:var(--teal); background:rgba(160,0,64,.08) !important; }
+.student-mobile-menu{ display:none; }
+@media(max-width:899px){
+  .wrap.admin-wrap{ padding-bottom:118px !important; }
+  .admin-sidebar{
+    position:fixed !important;
+    left:10px; right:10px; bottom:10px; top:auto !important;
+    z-index:70; padding:8px !important; border-radius:20px !important;
+    background:rgba(255,255,255,.96) !important;
+    box-shadow:0 12px 34px rgba(80,20,45,.20) !important;
+  }
+  .admin-nav{ display:grid !important; grid-template-columns:repeat(6,1fr); gap:5px; overflow:visible !important; padding:0 !important; }
+  .admin-nav button{ min-width:0 !important; width:100%; padding:8px 4px !important; border-radius:14px !important; font-size:10.5px !important; }
+  .admin-nav button .label{ flex-direction:column; gap:3px !important; line-height:1.05; }
+  .admin-nav button .ico{ width:24px; height:24px; font-size:12px; }
+}
+@media(max-width:520px){
+  .wrap.student-wrap{ width:100% !important; max-width:100% !important; padding:8px 8px 96px !important; }
+  .student-hero{ overflow:hidden; }
+  .student-shell .week-strip{
+    display:grid !important;
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:8px; overflow:visible !important; padding:0 !important; margin:0 !important;
+  }
+  .student-shell .week-chip{
+    min-width:0 !important; width:100% !important; padding:11px 4px !important;
+  }
+  .student-shell .week-chip .wk{ font-size:13px; }
+  .student-shell .week-chip .range{ font-size:9.5px; }
+  .student-shell .date-strip{
+    display:grid !important;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:7px; overflow:visible !important; padding:0 !important; margin:0 !important;
+  }
+  .student-shell .date-chip{
+    width:100% !important; min-width:0 !important; padding:10px 0 !important;
+  }
+  .student-shell .slot{ width:100%; margin-left:0; margin-right:0; }
+  .student-shell .slot-head{ flex-direction:column; }
+  .student-shell .remain{ text-align:left; display:flex; gap:6px; align-items:baseline; }
+  .student-mobile-menu{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:5px;
+    position:fixed; left:10px; right:10px; bottom:10px; z-index:65;
+    padding:8px; border-radius:18px; background:rgba(255,255,255,.96);
+    border:1px solid var(--line); box-shadow:0 12px 34px rgba(80,20,45,.20);
+  }
+  .student-mobile-menu a{
+    text-decoration:none; text-align:center; color:var(--muted); font-size:11px; font-weight:900;
+    border-radius:12px; padding:9px 4px; background:#f4eef1;
+  }
+  .student-mobile-menu a:active{ background:linear-gradient(145deg,var(--teal),var(--teal-deep)); color:#fff; }
+}
+
 </style>
 </head>
 <body>
 <div id="app"><div class="loading">불러오는 중…</div></div>
+<div id="print-area" aria-hidden="true"></div>
 <div id="toast" class="toast"></div>
 
 
@@ -640,6 +771,7 @@ async function init(){
       deleteSlot: window._functions.httpsCallable('deleteSlot'),
       createStudentAccount: window._functions.httpsCallable('createStudentAccount'),
       resetStudentPassword: window._functions.httpsCallable('resetStudentPassword'),
+      createAdminAccount: window._functions.httpsCallable('createAdminAccount'),
       markPasswordChanged: window._functions.httpsCallable('markPasswordChanged')
     };
     window._auth.onAuthStateChanged(async user=>{
@@ -723,8 +855,13 @@ const DB = {
   },
   async accounts(){
     const q=await window._db.collection('profiles').where('role','==','student').get();
-    const out=[]; q.forEach(d=>{ const x=d.data(); out.push({uid:d.id,id:x.sid||'',sid:x.sid||'',name:x.name||'',email:x.email||'',pwChanged:!!x.pwChanged,createdAtMillis:x.createdAtMillis||0}); });
+    const out=[]; q.forEach(d=>{ const x=d.data(); out.push({uid:d.id,role:'student',id:x.sid||'',sid:x.sid||'',name:x.name||'',email:x.email||'',pwChanged:!!x.pwChanged,createdAtMillis:x.createdAtMillis||0}); });
     return out.sort((a,b)=>String(a.id).localeCompare(String(b.id)));
+  },
+  async allAccounts(){
+    const q=await window._db.collection('profiles').get();
+    const out=[]; q.forEach(d=>{ const x=d.data(); out.push({uid:d.id,role:x.role||'',id:x.sid||x.email||'',sid:x.sid||'',name:x.name||'',email:x.email||'',pwChanged:!!x.pwChanged,createdAtMillis:x.createdAtMillis||0}); });
+    return out.sort((a,b)=>(String(a.role).localeCompare(String(b.role)) || String(a.id||a.email).localeCompare(String(b.id||b.email))));
   },
   async apply(slotId){ return (await window._cf.applyReservation({slotId})).data; },
   async cancel(appId){ return (await window._cf.cancelReservation({appId})).data; },
@@ -736,6 +873,7 @@ const DB = {
   async setSlotClosed(d){ return (await window._cf.setSlotClosed(d)).data; },
   async deleteSlot(d){ return (await window._cf.deleteSlot(d)).data; },
   async addAccount(id,name,password){ return (await window._cf.createStudentAccount({sid:id,name,password:password||''})).data; },
+  async addAdminAccount(email,name,password){ return (await window._cf.createAdminAccount({email,name,password:password||''})).data; },
   async resetPassword(uid){ return (await window._cf.resetStudentPassword({uid})).data; },
   async markPasswordChanged(){ return (await window._cf.markPasswordChanged({})).data; }
 };
@@ -856,10 +994,11 @@ function studentView(){
   return `<div class="student-shell">
     <div class="student-hero"><div class="eyebrow">Mobile Reservation Flow</div><h2>주차를 고르고<br>날짜와 시간을 선택하세요</h2><p>학생 화면은 모바일 사용을 기준으로 구성했습니다. 공개된 시간대만 표시되며, 신청은 서버에서 다시 검증됩니다.</p></div>
     ${semesterSummary()}
-    <section class="mobile-step"><div class="step-head"><div class="step-title"><span class="step-num">1</span>주차 선택</div><div class="step-sub">${esc(state.settings.term)}</div></div>${weekStripHtml(state.selectedWeek,'setStudentWeek')}</section>
-    <section class="mobile-step"><div class="step-head"><div class="step-title"><span class="step-num">2</span>날짜 선택</div><div class="step-sub">${week.week}주차</div></div>${dateStripHtml(week.dates, state.selectedDate, 'pickDate')}</section>
-    <section class="mobile-step"><div class="step-head"><div class="step-title"><span class="step-num">3</span>시간 선택</div><button class="refresh" onclick="loadStudent()">↻ 새로고침</button></div><div class="student-current"><span><b>${dateLabel(state.selectedDate)}</b></span><span>잔여 가능 ${remainCount}회</span></div>${slotsHtml}</section>
-    <section class="mobile-step"><div class="step-head"><div class="step-title"><span class="step-num">✓</span>내 신청 현황</div><div class="step-sub">진행 ${completedApps}회 · 유효 ${activeApps}회</div></div><div class="tickets">${ticketsHtml}</div></section>
+    <section id="step-week" class="mobile-step"><div class="step-head"><div class="step-title"><span class="step-num">1</span>주차 선택</div><div class="step-sub">${esc(state.settings.term)}</div></div>${weekStripHtml(state.selectedWeek,'setStudentWeek')}</section>
+    <section id="step-date" class="mobile-step"><div class="step-head"><div class="step-title"><span class="step-num">2</span>날짜 선택</div><div class="step-sub">${week.week}주차</div></div>${dateStripHtml(week.dates, state.selectedDate, 'pickDate')}</section>
+    <section id="step-time" class="mobile-step"><div class="step-head"><div class="step-title"><span class="step-num">3</span>시간 선택</div><button class="refresh" onclick="loadStudent()">↻ 새로고침</button></div><div class="student-current"><span><b>${dateLabel(state.selectedDate)}</b></span><span>잔여 가능 ${remainCount}회</span></div>${slotsHtml}</section>
+    <section id="step-my" class="mobile-step"><div class="step-head"><div class="step-title"><span class="step-num">✓</span>내 신청 현황</div><div class="step-sub">진행 ${completedApps}회 · 유효 ${activeApps}회</div></div><div class="tickets">${ticketsHtml}</div></section>
+    <nav class="student-mobile-menu"><a href="#step-week">주차</a><a href="#step-date">날짜</a><a href="#step-time">시간</a><a href="#step-my">내역</a></nav>
     <div class="student-bottom-spacer"></div>
   </div>`;
 }
@@ -941,7 +1080,7 @@ async function loadAdmin(){
     else if(state.adminTab==='manage') state.allSlots=await DB.allSlots();
     else if(state.adminTab==='semester') { /* settings already loaded */ }
     else if(state.adminTab==='attendance') [state.allSlots, state.confirmedApps] = await Promise.all([DB.allSlots(), DB.confirmedAppsByDate(state.adminAttendanceDate)]);
-    else if(state.adminTab==='accounts') state.accounts=await DB.accounts();
+    else if(state.adminTab==='accounts') state.accounts=await DB.allAccounts();
     else if(state.adminTab==='stats') [state.accounts, state.allApps, state.allSlots] = await Promise.all([DB.accounts(), DB.allApplications(), DB.allSlots()]);
   }catch(e){ console.error(e); toast(friendlyError(e,'관리자 데이터를 불러오지 못했습니다.'), true); }
   state.loading=false; render();
@@ -1032,7 +1171,7 @@ function adminAttendance(){
   const daySlots=state.allSlots.filter(s=>s.date===state.adminAttendanceDate).sort((a,b)=>String(a.start||'').localeCompare(String(b.start||'')));
   const bySlot={}; state.confirmedApps.forEach(a=>{ (bySlot[a.slotId]=bySlot[a.slotId]||[]).push(a); });
   const rows=daySlots.map(sl=>{ const apps=(bySlot[sl.id]||[]).sort((a,b)=>String(a.sid||'').localeCompare(String(b.sid||''))); const appRows=apps.length ? apps.map(attendanceRow).join('') : `<div class="empty" style="padding:22px 12px">확정된 예약자가 없습니다.</div>`; return `<div class="attend-slot"><div class="slot-title">${esc(sl.start)}–${esc(sl.end)} · ${esc(sl.topic)}</div><div class="slot-sub">${weekLabelForDate(sl.date)} · ${dateLabel(sl.date)} · ${esc(sl.room)} · 확정 ${apps.length}명 / 정원 ${safeNum(sl.capacity)}명</div>${appRows}</div>`; }).join('') || `<div class="empty">이 날짜에는 개설된 자율실습 시간대가 없습니다.</div>`;
-  return `${semesterSummary()}<div class="section-label">출석 체크 주차</div>${weekStripHtml(state.adminAttendanceWeek,'setAttendanceWeek')}<div class="section-label">출석 체크 날짜</div>${dateStripHtml(week.dates, state.adminAttendanceDate, 'pickAttendanceDate')}<div class="attend-head"><div class="hint">확정된 예약자만 표시됩니다. 출석 결과는 서버 함수에서 관리자 권한을 검증한 뒤 저장됩니다.</div><button class="refresh" onclick="loadAdmin()">↻ 새로고침</button></div>${rows}`;
+  return `${semesterSummary()}<div class="section-label">출석 체크 주차</div>${weekStripHtml(state.adminAttendanceWeek,'setAttendanceWeek')}<div class="section-label">출석 체크 날짜</div>${dateStripHtml(week.dates, state.adminAttendanceDate, 'pickAttendanceDate')}<div class="attend-head"><div class="hint">확정된 예약자만 표시됩니다. 출석 결과는 서버 함수에서 관리자 권한을 검증한 뒤 저장됩니다.</div><div style="display:flex;gap:7px;flex-wrap:wrap"><button class="refresh" onclick="printAttendanceSheets()">🖨 출석부 PDF</button><button class="refresh" onclick="exportAttendance()">⬇ 날짜별 엑셀</button><button class="refresh" onclick="exportAllConfirmed()">⬇ 전체 확정자 엑셀</button><button class="refresh" onclick="loadAdmin()">↻ 새로고침</button></div></div>${rows}`;
 }
 function attendanceRow(a){
   const att=a.attendance||'unchecked'; const checked=a.attendanceCheckedAtMillis ? new Date(a.attendanceCheckedAtMillis).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}) : '';
@@ -1044,6 +1183,50 @@ async function setAttendance(appId, attendance){
   try{ await DB.setAttendance(appId, attendance); toast('출석 상태를 저장했습니다.'); }
   catch(e){ toast(friendlyError(e,'출석 상태 저장에 실패했습니다.'),true); }
   state.busy=false; await loadAdmin();
+}
+function exportXlsx(aoa, sheetName, filename){
+  const ws=XLSX.utils.aoa_to_sheet(aoa);
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, sheetName);
+  XLSX.writeFile(wb, filename);
+}
+function exportAttendance(){
+  const apps=(state.confirmedApps||[]);
+  if(!apps.length){ toast('내보낼 확정자가 없습니다.',true); return; }
+  const L={present:'출석',late:'지각',absent:'결석',unchecked:'미체크'};
+  const header=['날짜','시작','종료','주제','실습실','학번','이름','출석','체크시각','체크자'];
+  const rows=[...apps].sort((a,b)=>String((a.start||'')+(a.sid||'')).localeCompare(String((b.start||'')+(b.sid||'')))).map(a=>[
+    a.date,a.start,a.end,a.topic,a.room,a.sid,a.name,L[a.attendance||'unchecked'],
+    a.attendanceCheckedAtMillis?new Date(a.attendanceCheckedAtMillis).toLocaleString('ko-KR'):'', a.attendanceCheckedBy||'']);
+  exportXlsx([header,...rows],'출석',`출석_${state.adminAttendanceDate}.xlsx`); toast('엑셀을 내려받았습니다.');
+}
+async function exportAllConfirmed(){
+  if(state.busy) return; state.busy=true; toast('내보내기 준비 중…');
+  let all=[]; try{ all=await DB.allApplications(); }catch(e){}
+  state.busy=false;
+  const conf=all.filter(a=>a.status==='confirmed');
+  if(!conf.length){ toast('확정된 예약이 없습니다.',true); return; }
+  const L={present:'출석',late:'지각',absent:'결석',unchecked:'미체크'};
+  const header=['날짜','시작','종료','주제','실습실','학번','이름','출석'];
+  const rows=conf.sort((a,b)=>String((a.date||'')+(a.start||'')+(a.sid||'')).localeCompare(String((b.date||'')+(b.start||'')+(b.sid||'')))).map(a=>[
+    a.date,a.start,a.end,a.topic,a.room,a.sid,a.name,L[a.attendance||'unchecked']]);
+  exportXlsx([header,...rows],'확정자명단','자율실습_확정자명단.xlsx'); toast('엑셀을 내려받았습니다.');
+}
+function printAttendanceSheets(){
+  const date=state.adminAttendanceDate;
+  const daySlots=(state.allSlots||[]).filter(s=>s.date===date).sort((a,b)=>String(a.start||'').localeCompare(String(b.start||'')));
+  if(!daySlots.length){ toast('이 날짜에 개설된 시간대가 없습니다.',true); return; }
+  const bySlot={}; (state.confirmedApps||[]).forEach(a=>{ (bySlot[a.slotId]=bySlot[a.slotId]||[]).push(a); });
+  let body='';
+  daySlots.forEach(sl=>{
+    const apps=(bySlot[sl.id]||[]).sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'ko'));
+    const trs=apps.length?apps.map((a,i)=>`<tr><td>${i+1}</td><td class="l">${esc(a.name)}</td><td>${esc(a.sid)}</td><td></td><td></td></tr>`).join('')
+      :`<tr><td colspan="5" style="color:#888">확정된 예약자가 없습니다.</td></tr>`;
+    body+=`<section><h2>${esc(sl.topic)}</h2><div class="sinfo">${dateLabel(sl.date)} · ${esc(sl.start)}–${esc(sl.end)} · ${esc(sl.room)} · 확정 ${apps.length}명 / 정원 ${safeNum(sl.capacity)}명</div><table><thead><tr><th>번호</th><th>이름</th><th>학번</th><th>출석</th><th>서명</th></tr></thead><tbody>${trs}</tbody></table></section>`;
+  });
+  const area=document.getElementById('print-area');
+  area.innerHTML=`<div class="print-doc"><h1>김천대학교 간호학과 · 자율실습 출석부</h1><div class="psub">${dateLabel(date)} 기준 · 출력일 ${new Date().toLocaleDateString('ko-KR')}</div>${body}</div>`;
+  window.print();
 }
 function adminManage(){
   const rows=state.allSlots.map(slotManagementRow).join('') || `<div class="empty">개설된 시간대가 없습니다. 아래에서 새로 만들어 보세요.</div>`;
@@ -1062,36 +1245,52 @@ function adminManage(){
 function slotManagementRow(sl){
   const cap=safeNum(sl.capacity), cf=safeNum(sl.confirmedCount), pd=safeNum(sl.pendingCount);
   const info=visibilityInfo(sl); const dom=String(sl.id).replace(/[^A-Za-z0-9_-]/g,'_');
-  return `<div class="mng-row"><div class="top"><div class="ttl">${esc(sl.start)}–${esc(sl.end)} <span>· ${weekLabelForDate(sl.date)} · ${dateLabel(sl.date)}</span><br><span style="font-size:12px">${esc(sl.topic)} · ${esc(sl.room)}</span><div style="margin-top:7px"><span class="status-pill ${info.cls}">${esc(info.text)}</span>${sl.closed?' <span class="status-pill closed">마감</span>':''}</div></div><div class="cnt"><b>${cf}</b> / ${cap}<br><span style="font-size:11px">대기 ${pd}</span></div></div><div class="bar"><div class="fill-c" style="width:${cap?cf/cap*100:0}%"></div><div class="fill-p" style="width:${cap?pd/cap*100:0}%"></div></div><div class="visibility-controls"><input id="open-${dom}" type="datetime-local" value="${datetimeLocalValue(sl.openAtMillis)}" title="노출예약일시"><button class="small-btn primary" onclick="updateVisibility(${jsStr(sl.id)},${jsStr(dom)},true)">공개/예약</button><button class="small-btn" onclick="updateVisibility(${jsStr(sl.id)},${jsStr(dom)},false)">비공개</button></div><div class="mng-actions"><button class="small-btn" onclick="editSlotCapacity(${jsStr(sl.id)},${cap})">정원 수정</button><button class="small-btn ${sl.closed?'primary':''}" onclick="toggleSlotClosed(${jsStr(sl.id)},${sl.closed?'false':'true'})">${sl.closed?'마감 해제':'마감'}</button><button class="small-btn danger" onclick="deleteSlotConfirm(${jsStr(sl.id)},${jsStr(sl.start+'–'+sl.end+' '+dateLabel(sl.date))})">삭제</button></div></div>`;
+  return `<div class="mng-row"><div class="top"><div class="ttl">${esc(sl.start)}–${esc(sl.end)} <span>· ${weekLabelForDate(sl.date)} · ${dateLabel(sl.date)}</span><br><span style="font-size:12px">${esc(sl.topic)} · ${esc(sl.room)}</span><div style="margin-top:7px"><span class="status-pill ${info.cls}">${esc(info.text)}</span>${sl.closed?' <span class="status-pill closed">마감</span>':''}</div></div><div class="cnt"><b>${cf}</b> / ${cap}<br><span style="font-size:11px">대기 ${pd}</span></div></div><div class="bar"><div class="fill-c" style="width:${cap?cf/cap*100:0}%"></div><div class="fill-p" style="width:${cap?pd/cap*100:0}%"></div></div><div class="visibility-controls"><input id="open-${dom}" type="datetime-local" value="${datetimeLocalValue(sl.openAtMillis)}" title="노출예약일시"><button class="small-btn primary" onclick="updateVisibility(${jsStr(sl.id)},${jsStr(dom)},true)">공개/예약</button><button class="small-btn" onclick="updateVisibility(${jsStr(sl.id)},${jsStr(dom)},false)">비공개</button></div><div class="mng-actions"><button class="small-btn edit" onclick="editSlotDetail(${jsStr(sl.id)})">수정</button><button class="small-btn" onclick="editSlotCapacity(${jsStr(sl.id)},${cap})">정원 수정</button><button class="small-btn ${sl.closed?'primary':''}" onclick="toggleSlotClosed(${jsStr(sl.id)},${sl.closed?'false':'true'})">${sl.closed?'마감 해제':'마감'}</button><button class="small-btn danger" onclick="deleteSlotConfirm(${jsStr(sl.id)},${jsStr(sl.start+'–'+sl.end+' '+dateLabel(sl.date))})">삭제</button></div></div>`;
 }
 async function updateVisibility(slotId, domId, visible){
   if(state.busy) return; state.busy=true;
   const v=document.getElementById(`open-${domId}`)?.value || '';
   const openAtMillis=visible ? millisFromDatetimeLocal(v) : 0;
-  try{ await DB.updateSlotVisibility({slotId, visible, openAtMillis}); toast(visible ? (openAtMillis?`노출예약 저장: ${formatDateTimeMillis(openAtMillis)}`:'즉시 공개로 저장했습니다.') : '비공개로 저장했습니다.'); }
-  catch(e){ toast(friendlyError(e,'공개 설정 저장에 실패했습니다.'),true); }
-  state.busy=false; await loadAdmin();
+  try{ await DB.updateSlotVisibility({slotId, visible, openAtMillis}); toast(visible ? (openAtMillis?`노출예약 저장: ${formatDateTimeMillis(openAtMillis)}`:'즉시 공개로 저장했습니다.') : '비공개로 저장했습니다.'); await loadAdmin(); }
+  catch(e){ console.error(e); toast(friendlyError(e,'공개 설정 저장에 실패했습니다.'),true); }
+  finally{ state.busy=false; }
+}
+async function editSlotDetail(slotId){
+  const sl=(state.allSlots||[]).find(x=>x.id===slotId);
+  if(!sl){ toast('시간대 정보를 찾지 못했습니다.',true); return; }
+  const date=prompt('날짜를 입력하세요 (YYYY-MM-DD)', sl.date || ''); if(date===null) return;
+  const start=prompt('시작시간을 입력하세요 (HH:MM)', sl.start || ''); if(start===null) return;
+  const end=prompt('종료시간을 입력하세요 (HH:MM)', sl.end || ''); if(end===null) return;
+  const topic=prompt('실습 주제를 입력하세요', sl.topic || ''); if(topic===null) return;
+  const room=prompt('실습실을 입력하세요', sl.room || ''); if(room===null) return;
+  const capText=prompt('정원을 입력하세요', safeNum(sl.capacity)); if(capText===null) return;
+  const capacity=parseInt(capText,10);
+  if(!date || !start || !end || !topic || !capacity){ toast('날짜, 시간, 주제, 정원을 모두 입력하세요.',true); return; }
+  if(state.busy) return; state.busy=true;
+  try{ await DB.updateSlot({slotId, date, start, end, topic, room, capacity}); toast('시간대 정보를 수정했습니다.'); await loadAdmin(); }
+  catch(e){ console.error(e); toast(friendlyError(e,'시간대 수정에 실패했습니다.'),true); }
+  finally{ state.busy=false; }
 }
 async function editSlotCapacity(slotId, cur){
   const v=prompt('새 정원을 입력하세요', cur); if(v===null) return;
   const capacity=parseInt(v,10); if(!capacity||capacity<1){ toast('정원은 1 이상이어야 합니다.',true); return; }
   if(state.busy) return; state.busy=true;
-  try{ await DB.updateSlot({slotId, capacity}); toast('정원을 변경했습니다.'); }
-  catch(e){ toast(friendlyError(e,'정원 변경에 실패했습니다.'),true); }
-  state.busy=false; await loadAdmin();
+  try{ await DB.updateSlot({slotId, capacity}); toast('정원을 변경했습니다.'); await loadAdmin(); }
+  catch(e){ console.error(e); toast(friendlyError(e,'정원 변경에 실패했습니다.'),true); }
+  finally{ state.busy=false; }
 }
 async function toggleSlotClosed(slotId, closed){
   if(state.busy) return; state.busy=true;
-  try{ await DB.setSlotClosed({slotId, closed}); toast(closed?'시간대를 마감했습니다.':'마감을 해제했습니다.'); }
-  catch(e){ toast(friendlyError(e,'마감 처리에 실패했습니다.'),true); }
-  state.busy=false; await loadAdmin();
+  try{ await DB.setSlotClosed({slotId, closed}); toast(closed?'시간대를 마감했습니다.':'마감을 해제했습니다.'); await loadAdmin(); }
+  catch(e){ console.error(e); toast(friendlyError(e,'마감 처리에 실패했습니다.'),true); }
+  finally{ state.busy=false; }
 }
 async function deleteSlotConfirm(slotId, label){
   if(!confirm(`${label} 시간대를 삭제하시겠습니까?\n이 시간대의 모든 신청·확정 내역도 함께 삭제됩니다.`)) return;
   if(state.busy) return; state.busy=true;
-  try{ const r=await DB.deleteSlot({slotId}); toast(`시간대를 삭제했습니다${r&&r.deletedApplications?` (신청 ${r.deletedApplications}건 포함)`:''}.`); }
-  catch(e){ toast(friendlyError(e,'삭제에 실패했습니다.'),true); }
-  state.busy=false; await loadAdmin();
+  try{ const r=await DB.deleteSlot({slotId}); toast(`시간대를 삭제했습니다${r&&r.deletedApplications?` (신청 ${r.deletedApplications}건 포함)`:''}.`); await loadAdmin(); }
+  catch(e){ console.error(e); toast(friendlyError(e,'삭제에 실패했습니다.'),true); }
+  finally{ state.busy=false; }
 }
 async function addSlot(){
   const date=document.getElementById('ns-date').value, start=document.getElementById('ns-start').value, end=document.getElementById('ns-end').value, topic=document.getElementById('ns-topic').value.trim(), room=document.getElementById('ns-room').value.trim(), capacity=parseInt(document.getElementById('ns-cap').value,10), visible=document.getElementById('ns-visible').checked, openAtMillis=millisFromDatetimeLocal(document.getElementById('ns-openAt').value);
@@ -1125,10 +1324,20 @@ async function saveSemester(){
   catch(e){ toast(friendlyError(e,'학기 설정 저장에 실패했습니다.'),true); }
 }
 function adminAccounts(){
-  const list=state.accounts.map(a=>`<div class="acct-row"><div class="nm">${esc(a.name)}<span>${esc(a.id)}</span><div style="font-size:11px;color:var(--faint);margin-top:3px">${a.pwChanged?'비밀번호 변경 완료':'임시 비밀번호 상태'}</div></div><button class="btn-no" style="padding:7px 12px;font-size:12px" onclick="resetPw(${jsStr(a.uid)},${jsStr(a.name)})">비번 초기화</button></div>`).join('') || `<div class="empty">등록된 학생 계정이 없습니다.</div>`;
-  const form=`<div class="newslot"><h4>＋ 엑셀(.xlsx) 명단 업로드</h4><p class="tiny-help">열 순서: 학번 · 이름 · 임시비밀번호(선택, 비우면 서버가 자동 생성) — 자동 생성된 비밀번호는 CSV로 내려받습니다.</p><label class="btn-ok" style="display:block;text-align:center;padding:11px;cursor:pointer">엑셀 파일 선택<input type="file" accept=".xlsx,.xls" style="display:none" onchange="uploadAcctXlsx(this)"></label></div>
+  const students=state.accounts.filter(a=>a.role==='student');
+  const admins=state.accounts.filter(a=>a.role==='admin');
+  const adminList=admins.map(a=>`<div class="acct-row"><div class="nm">${esc(a.name||'관리자')}<span>${esc(a.email||a.id)}</span><div style="font-size:11px;color:var(--faint);margin-top:3px">관리자 권한 계정</div></div><span class="status-pill open">admin</span></div>`).join('') || `<div class="empty">등록된 관리자 프로필이 없습니다.</div>`;
+  const list=students.map(a=>`<div class="acct-row"><div class="nm">${esc(a.name)}<span>${esc(a.id)}</span><div style="font-size:11px;color:var(--faint);margin-top:3px">${a.pwChanged?'비밀번호 변경 완료':'임시 비밀번호 상태'}</div></div><button class="btn-no" style="padding:7px 12px;font-size:12px" onclick="resetPw(${jsStr(a.uid)},${jsStr(a.name)})">비번 초기화</button></div>`).join('') || `<div class="empty">등록된 학생 계정이 없습니다.</div>`;
+  const form=`<div class="newslot"><h4>＋ 관리자 계정 직접 추가</h4><p class="tiny-help">관리자 계정은 이메일 주소로 로그인합니다. 생성 즉시 custom claim(role: admin)이 부여됩니다.</p><div class="grid"><input id="ad-email" placeholder="관리자 이메일"><input id="ad-nm" placeholder="관리자 이름"></div><input id="ad-pw" class="inline-input" placeholder="임시 비밀번호 (선택, 6자 이상)"><button class="btn-ok" style="width:100%;padding:11px;margin-bottom:16px" onclick="addAdminAcct()">관리자 추가</button></div>
+    <div class="newslot"><h4>＋ 엑셀(.xlsx) 학생 명단 업로드</h4><p class="tiny-help">열 순서: 학번 · 이름 · 임시비밀번호(선택, 비우면 서버가 자동 생성) — 자동 생성된 비밀번호는 CSV로 내려받습니다.</p><label class="btn-ok" style="display:block;text-align:center;padding:11px;cursor:pointer">엑셀 파일 선택<input type="file" accept=".xlsx,.xls" style="display:none" onchange="uploadAcctXlsx(this)"></label></div>
     <div class="newslot"><h4>＋ 학생 계정 직접 추가</h4><div class="grid"><input id="ac-id" placeholder="학번 (예: 20231240)"><input id="ac-nm" placeholder="이름"></div><input id="ac-pw" class="inline-input" placeholder="임시 비밀번호 (선택, 6자 이상)"><button class="btn-ok" style="width:100%;padding:11px;margin-bottom:16px" onclick="addAcct()">한 명 추가</button><h4>＋ 명단 붙여넣기 등록</h4><p class="tiny-help">한 줄에 "학번,이름,임시비밀번호(선택)" 형식</p><textarea id="ac-bulk" class="bulk" placeholder="20231240,홍길동\n20231241,김영희"></textarea><button class="btn-ok" style="width:100%;padding:11px;margin-top:10px" onclick="addBulk()">붙여넣기 등록</button></div>`;
-  return `${semesterSummary()}<div class="section-label">학생 계정 (${state.accounts.length}명)</div>${list}${form}`;
+  return `${semesterSummary()}<div class="section-label">관리자 계정 (${admins.length}명)</div>${adminList}<div class="section-label">학생 계정 (${students.length}명)</div>${list}${form}`;
+}
+async function addAdminAcct(){
+  const email=document.getElementById('ad-email').value.trim(), nm=document.getElementById('ad-nm').value.trim(), pw=document.getElementById('ad-pw').value;
+  if(!email||!nm){ toast('관리자 이메일과 이름을 입력하세요.',true); return; }
+  try{ const res=await DB.addAdminAccount(email,nm,pw); if(res.tempPassword){ alert(`${nm} 관리자 임시 비밀번호\n\n${res.tempPassword}\n\n로그인 후 비밀번호를 변경하도록 안내하세요.`); } else toast(`${nm} 관리자 계정 추가됨`); await loadAdmin(); }
+  catch(e){ console.error(e); toast(friendlyError(e,'관리자 계정 추가에 실패했습니다.'),true); }
 }
 async function uploadAcctXlsx(input){
   const file=input.files[0]; if(!file) return;
